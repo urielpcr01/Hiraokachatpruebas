@@ -1,0 +1,83 @@
+<html>
+
+<style type='text/css'>
+	.embeddedServiceHelpButton .helpButton .uiButton {
+		background-color: #005290;
+		font-family: "Arial", sans-serif;
+	}
+	.embeddedServiceHelpButton .helpButton .uiButton:focus {
+		outline: 1px solid #005290;
+	}
+</style>
+
+<script type='text/javascript' src='https://service.force.com/embeddedservice/5.0/esw.min.js'></script>
+<script type='text/javascript'>
+	var initESW = function(gslbBaseURL) {
+		embedded_svc.settings.displayHelpButton = true; //Or false
+		embedded_svc.settings.language = ''; //For example, enter 'en' or 'en-US'
+
+		//embedded_svc.settings.defaultMinimizedText = '...'; //(Defaults to Chat with an Expert)
+		//embedded_svc.settings.disabledMinimizedText = '...'; //(Defaults to Agent Offline)
+
+		//embedded_svc.settings.loadingText = ''; //(Defaults to Loading)
+		//embedded_svc.settings.storageDomain = 'yourdomain.com'; //(Sets the domain for your deployment so that visitors can navigate subdomains during a chat session)
+
+		// Settings for Chat
+        embedded_svc.settings.directToButtonRouting = function(prechatFormData) {
+            //return "5732g00000000g6";
+            
+            if (prechatFormData[4].value === 'Hiraoka'){
+                return "5732g00000000g6";
+            }else{
+                return "5732g00000000gB";    
+            }
+        };
+		//embedded_svc.settings.prepopulatedPrechatFields = {}; //Sets the auto-population of pre-chat form fields
+		//embedded_svc.settings.fallbackRouting = []; //An array of button IDs, user IDs, or userId_buttonId
+		//embedded_svc.settings.offlineSupportMinimizedText = '...'; //(Defaults to Contact Us)
+
+		embedded_svc.settings.enabledFeatures = ['LiveAgent'];
+		embedded_svc.settings.entryFeature = 'LiveAgent';
+
+		embedded_svc.init(
+			'https://hiraokasf--developer.my.salesforce.com',
+			'https://developer-hiraoka.cs35.force.com/Chat',
+			gslbBaseURL,
+			'00D2g0000008hTX',
+			'HSC_Chat_Web',
+			{
+				baseLiveAgentContentURL: 'https://c.la3-c1cs-ia2.salesforceliveagent.com/content',
+				deploymentId: '5722g00000000bd',
+				buttonId: '5732g00000000g6',
+				baseLiveAgentURL: 'https://d.la3-c1cs-ia2.salesforceliveagent.com/chat',
+				eswLiveAgentDevName: 'EmbeddedServiceLiveAgent_Parent04I2g0000004CMbEAM_17b7eb6ed10',
+				isOfflineSupportEnabled: true
+			}
+		);
+	};
+
+	if (!window.embedded_svc) {
+		var s = document.createElement('script');
+		s.setAttribute('src', 'https://hiraokasf--developer.my.salesforce.com/embeddedservice/5.0/esw.min.js');
+		s.onload = function() {
+			initESW(null);
+		};
+		document.body.appendChild(s);
+	} else {
+		initESW('https://service.force.com');
+	}
+</script>
+
+
+
+
+<a id="liveagent_button_online_5732g00000000g6" href="javascript://Chat" style="display: none;" onclick="liveagent.startChat('5732g00000000g6')"><!-- Online Chat Content --></a><div id="liveagent_button_offline_5732g00000000g6" style="display: none;"><!-- Offline Chat Content --></div><script type="text/javascript">
+if (!window._laq) { window._laq = []; }
+window._laq.push(function(){liveagent.showWhenOnline('5732g00000000g6', document.getElementById('liveagent_button_online_5732g00000000g6'));
+liveagent.showWhenOffline('5732g00000000g6', document.getElementById('liveagent_button_offline_5732g00000000g6'));
+});</script>
+
+
+
+
+</html> 
