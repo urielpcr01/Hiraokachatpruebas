@@ -10,7 +10,6 @@
 	}
 </style>
 
-
 <script type='text/javascript' src='https://service.force.com/embeddedservice/5.0/esw.min.js'></script>
 <script type='text/javascript'>
 	var initESW = function(gslbBaseURL) {
@@ -24,10 +23,15 @@
 		//embedded_svc.settings.storageDomain = 'yourdomain.com'; //(Sets the domain for your deployment so that visitors can navigate subdomains during a chat session)
 
 		// Settings for Chat
-		//embedded_svc.settings.directToButtonRouting = function(prechatFormData) {
-			// Dynamically changes the button ID based on what the visitor enters in the pre-chat form.
-			// Returns a valid button ID.
-		//};
+        embedded_svc.settings.directToButtonRouting = function(prechatFormData) {
+            //return "5732g00000000g6";
+            
+            if (prechatFormData[4].value === 'Hiraoka'){
+                return "5732g00000000g6";
+            }else{
+                return "5732g00000000gB";    
+            }
+        };
 		//embedded_svc.settings.prepopulatedPrechatFields = {}; //Sets the auto-population of pre-chat form fields
 		//embedded_svc.settings.fallbackRouting = []; //An array of button IDs, user IDs, or userId_buttonId
 		//embedded_svc.settings.offlineSupportMinimizedText = '...'; //(Defaults to Contact Us)
@@ -63,13 +67,6 @@
 		initESW('https://service.force.com');
 	}
 </script>
-
-
-<a id="liveagent_button_online_5732g00000000gB" href="javascript://Chat" style="display: block;" onclick="liveagent.startChat('5732g00000000gB')">Start Chat</a><div id="liveagent_button_offline_5732g00000000gB" style="display: none;">Offline chat</div><script type="text/javascript">
-if (!window._laq) { window._laq = []; }
-window._laq.push(function(){liveagent.showWhenOnline('5732g00000000gB', document.getElementById('liveagent_button_online_5732g00000000gB'));
-liveagent.showWhenOffline('5732g00000000gB', document.getElementById('liveagent_button_offline_5732g00000000gB'));
-});</script>
 
 
 
