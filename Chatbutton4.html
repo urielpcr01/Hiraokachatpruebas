@@ -28,7 +28,9 @@
             // Dynamically changes the button ID based on what the visitor enters in the pre-chat form.
             // Returns a valid button ID.
         //};
-        //embedded_svc.settings.prepopulatedPrechatFields = {}; //Sets the auto-population of pre-chat form fields
+        embedded_svc.settings.prepopulatedPrechatFields = {
+            Origin:"Web"
+        }; //Sets the auto-population of pre-chat form fields
         //embedded_svc.settings.fallbackRouting = []; //An array of button IDs, user IDs, or userId_buttonId
         embedded_svc.settings.enabledFeatures = ['LiveAgent'];
         embedded_svc.settings.entryFeature = 'LiveAgent';
@@ -42,13 +44,13 @@
                 "doCreate": false,
                 "doFind": true,
                 "fieldName": "LastName",
-                "isExactMatch": true,
+                "isExactMatch": false,
                 "label": "Last Name"
             }, {
                 "doCreate": false,
                 "doFind": true,
                 "fieldName": "FirstName",
-                "isExactMatch": true,
+                "isExactMatch": false,
                 "label": "First Name"
             }, {
                 "doCreate": false,
@@ -91,12 +93,11 @@
                 li2.style.color = "white";
                 li2.style.backgroundColor  = "#FF0003";
                 li2.style.right  = "12px";
-                li2.style.height  = "36px";
+                li2.style.height  = "15px";
+                li2.style.fontSize = "15px";
                 li2.style.borderRadius = "5px";
-                li2.style.padding = "3px";
-                li2.appendChild(document.createTextNode("Disculpa, en este momento no tenemos"));
-                li2.appendChild(document.createElement("br"));
-                li2.appendChild(document.createTextNode(" un asesor disponible por este canal."));
+                li2.style.padding = "16px";
+                li2.appendChild(document.createTextNode("Chat no disponible"));
                 var sidebar = document.querySelector("div.helpButton");
                 sidebar.insertBefore(li2, sidebar.childNodes[0]);
             }
@@ -108,10 +109,21 @@
                 var li2 = document.createElement("div");
                 li2.style.color = "white";
                 li2.style.backgroundColor  = "#FF0003";
-                li2.style.padding = "5px";
-                li2.appendChild(document.createTextNode("Para atenderlo mejor, llene el siguiente formulario."));
+                li2.style.padding = "1px";
+                li2.style.fontSize = "13px";
+                li2.appendChild(document.createTextNode("Para atenderte mejor, por favor llene el siguiente formulario."));
+                var li = document.createElement("div");
+                li.style.color = "black";
+                li.style.fontSize = "10px";
+                //li.style.backgroundColor  = "#FF0003";
+                li.style.padding = "1px";
+                li.appendChild(document.createTextNode("Horario de atención:"));
+                li.appendChild(document.createElement("br"));
+                li.appendChild(document.createTextNode("Lunes a viernes 8:15 am a 6:00 pm y sábados 8:15 am a 1:00 pm."));
                 var sidebar = document.querySelector("div.formContent.embeddedServiceSidebarForm");
                 sidebar.insertBefore(li2, sidebar.childNodes[0]);
+                console.log(sidebar.childNodes)
+                sidebar.insertBefore(li, sidebar.childNodes[4]);
             }
         });
         ///-------------------------------------------------------------------------------------------------------------------
