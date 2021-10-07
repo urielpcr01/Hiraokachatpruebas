@@ -14,9 +14,17 @@
 
 <script type='text/javascript' src='https://service.force.com/embeddedservice/5.0/esw.min.js'></script>
 <script type='text/javascript'>
+    //posicion!=auto y izq=""   posicion a la derecha
+    //posicion=auto y izq!=0px    posicion a la izquierda
+    ///Izquierda
+    window.chatSFposicion='auto';
+    window.chatSFizq="25px";
+    ///Deracha
+    /*window.chatSFposicion="25px";
+    window.chatSFizq="";*/
     var initESW = function(gslbBaseURL) {
-        embedded_svc.settings.displayHelpButton = true; //Or false
-        embedded_svc.settings.language = ''; //For example, enter 'en' or 'en-US'
+        embedded_svc.settings.displayHelpButton = false; //Or false
+        embedded_svc.settings.language = 'es'; //For example, enter 'en' or 'en-US'
 
         //embedded_svc.settings.disabledMinimizedText = '...'; //(Defaults to Agent Offline)
 
@@ -76,17 +84,29 @@
         embedded_svc.addEventHandler("onChatEndedByAgent", function(data) {
             console.log("Evento onChatEndedByAgent.");
             show = false;
+            //Mostrar el boton ya modificado
+            var chat = document.querySelector("div.embeddedServiceHelpButton");
+            chat.style.display = "block";
         });
         embedded_svc.addEventHandler("onChatEndedByChasitor", function(data) {
             console.log("Evento onChatEndedByChasitor.");
             show = false;
+            //Mostrar el boton ya modificado
+            var chat = document.querySelector("div.embeddedServiceHelpButton");
+            chat.style.display = "block";
         });
         embedded_svc.addEventHandler("afterDestroy", function(data) {
             console.log("Evento afterDestroy.");
             show = false;
+            //Mostrar el boton ya modificado
+            var chat = document.querySelector("div.embeddedServiceHelpButton");
+            chat.style.display = "block";
         });
         embedded_svc.addEventHandler("onSettingsCallCompleted", function(data) {
             console.log("onSettingsCallCompleted event was fired. Agent availability status is " + (data.isAgentAvailable==true ? "online": "offline"));
+            var sidebar = document.querySelector("div.helpButton");
+            sidebar.style.right = chatSFposicion;
+            sidebar.style.left = chatSFizq;
             if(!data.isAgentAvailable){
                 document.querySelector("button.uiButton.helpButtonDisabled").remove();
                 var li2 = document.createElement("div");
@@ -98,11 +118,16 @@
                 li2.style.borderRadius = "5px";
                 li2.style.padding = "16px";
                 li2.appendChild(document.createTextNode("Chat no disponible"));
-                var sidebar = document.querySelector("div.helpButton");
                 sidebar.insertBefore(li2, sidebar.childNodes[0]);
             }
+            //Mostrar el boton ya modificado
+            var chat = document.querySelector("div.embeddedServiceHelpButton");
+            chat.style.display = "block";
         });
         embedded_svc.addEventHandler("afterMaximize", function(data) {
+            var formAct = document.querySelector("div.dockableContainer.showDockableContainer");
+            formAct.style.right=chatSFposicion;
+            formAct.style.left = chatSFizq;
             console.log("Evento afterMaximize.");
             if (!show) {
                 show = true;
@@ -119,12 +144,26 @@
                 li.style.padding = "1px";
                 li.appendChild(document.createTextNode("Horario de atención:"));
                 li.appendChild(document.createElement("br"));
-                li.appendChild(document.createTextNode("Lunes a viernes 8:15 am a 6:00 pm y sábados 8:15 am a 1:00 pm."));
+                li.appendChild(document.createTextNode("Servicio al Cliente: Lun-Sab: 9am-6:00pm, Dom: 10am-5:00pm"));
+                li.appendChild(document.createElement("br"));
+				li.appendChild(document.createTextNode("Servicio Técnico: Lun-Vie: 8:15am-6:00pm, Sab: 8:15am a 1:00pm. "));
                 var sidebar = document.querySelector("div.formContent.embeddedServiceSidebarForm");
                 sidebar.insertBefore(li2, sidebar.childNodes[0]);
                 console.log(sidebar.childNodes)
                 sidebar.insertBefore(li, sidebar.childNodes[4]);
             }
+            //Mostrar el boton ya modificado
+            var chat = document.querySelector("div.embeddedServiceHelpButton");
+            chat.style.display = "block";
+        });
+        embedded_svc.addEventHandler("afterMinimize", function(data) {
+            //Mostrar el boton ya modificado
+            var chat = document.querySelector("div.embeddedServiceHelpButton");
+            chat.style.display = "block";
+            console.log("Evento afterMinimize.");
+            var sidebar = document.querySelector("button.sidebarHeader.minimizedContainer.helpButton.embeddedServiceSidebarMinimizedDefaultUI");
+            sidebar.style.right = chatSFposicion;
+            sidebar.style.left = chatSFizq;
         });
         ///-------------------------------------------------------------------------------------------------------------------
         embedded_svc.init(
