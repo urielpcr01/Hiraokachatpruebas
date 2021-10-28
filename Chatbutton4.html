@@ -1,7 +1,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1"/>
     <style type='text/css'>
     .embeddedServiceHelpButton .helpButton .uiButton {
-        background-color: #FD0000;
+        background-color: #0021C7;
         font-family: "Arial", sans-serif;
         font-size: 15px;
     }
@@ -13,17 +13,9 @@
 
 <script type='text/javascript' src='https://service.force.com/embeddedservice/5.0/esw.min.js'></script>
 <script type='text/javascript'>
-    //posicion!=auto y izq=""   posicion a la derecha
-    //posicion=auto y izq!=0px    posicion a la izquierda
-    ///Izquierda
-    window.chatSFposicion='auto';
-    window.chatSFizq="25px";
-    ///Deracha
-    /*window.chatSFposicion="25px";
-    window.chatSFizq="";*/
     var initESW = function(gslbBaseURL) {
-        embedded_svc.settings.displayHelpButton = false; //Or false
-        embedded_svc.settings.language = ''; //For example, enter 'en' or 'en-US'
+        embedded_svc.settings.displayHelpButton = true; //Or false
+        embedded_svc.settings.language = 'sp'; //For example, enter 'en' or 'en-US'
 
         //embedded_svc.settings.disabledMinimizedText = '...'; //(Defaults to Agent Offline)
 
@@ -45,7 +37,7 @@
         /***********Modificaciones De Chat*************************////
         //Añadir el tamaño de la fuente
         embedded_svc.settings.defaultMinimizedText = 'Chatea con nosotros'; //(Defaults to Chat with an Expert)
-        embedded_svc.settings.disabledMinimizedText = 'Nuestro horario de atención es de Lunes a viernes de 8:15am a 6:00pm y sábados de 8:15am a 1:00pm. Por favor vuelva a contactarnos en este horario. ¡Muchas Gracias!'; //(Defaults to Contact Us)
+        embedded_svc.settings.disabledMinimizedText = '    '; //(Defaults to Contact Us)
         embedded_svc.settings.extraPrechatInfo = [{
             "entityFieldMaps": [{
                 "doCreate": false,
@@ -69,49 +61,32 @@
             "entityName": "Contact",
             "linkToEntityName": ""
         }];
-        embedded_svc.settings.directToButtonRouting = function(prechatFormData) {
-            if (prechatFormData[4].value === 'Cómo comprar en la web' || prechatFormData[4].value === 'Consultas sobre pedidos' || prechatFormData[4].value === 'Otras consultas' || prechatFormData[4].value === 'Quejas y reclamos - pedidos'){
-                //return "5732g00000000gB";
-                return "5737d0000004CsI";
-            }else{
-                return "5737d0000004CsS";
-                //return "5732g00000000g6";
-            }   
-        }
+        //Añadir texto ejemplo
         //Añadir texto ejemplo
         var show = false;
         embedded_svc.addEventHandler("onChatEndedByAgent", function(data) {
             console.log("Evento onChatEndedByAgent.");
             show = false;
-            //Mostrar el boton ya modificado
-            var chat = document.querySelector("div.embeddedServiceHelpButton");
-            chat.style.display = "block";
+            
         });
         embedded_svc.addEventHandler("onChatEndedByChasitor", function(data) {
             console.log("Evento onChatEndedByChasitor.");
             show = false;
-            //Mostrar el boton ya modificado
-            var chat = document.querySelector("div.embeddedServiceHelpButton");
-            chat.style.display = "block";
+            
         });
         embedded_svc.addEventHandler("afterDestroy", function(data) {
             console.log("Evento afterDestroy.");
             show = false;
-            //Mostrar el boton ya modificado
-            var chat = document.querySelector("div.embeddedServiceHelpButton");
-            chat.style.display = "block";
+            
         });
         embedded_svc.addEventHandler("onSettingsCallCompleted", function(data) {
             console.log("onSettingsCallCompleted event was fired. Agent availability status is " + (data.isAgentAvailable==true ? "online": "offline"));
-            var sidebar = document.querySelector("div.helpButton");
-            sidebar.style.right = chatSFposicion;
-            sidebar.style.left = chatSFizq;
             if(!data.isAgentAvailable){
+                var sidebar = document.querySelector("div.helpButton");
                 document.querySelector("button.uiButton.helpButtonDisabled").remove();
                 var li2 = document.createElement("div");
                 li2.style.color = "white";
-                li2.style.backgroundColor  = "#FF0003";
-                li2.style.right  = "12px";
+                li2.style.backgroundColor  = "#0021C7";
                 li2.style.height  = "15px";
                 li2.style.fontSize = "15px";
                 li2.style.borderRadius = "5px";
@@ -119,20 +94,14 @@
                 li2.appendChild(document.createTextNode("Chat no disponible"));
                 sidebar.insertBefore(li2, sidebar.childNodes[0]);
             }
-            //Mostrar el boton ya modificado
-            var chat = document.querySelector("div.embeddedServiceHelpButton");
-            chat.style.display = "block";
         });
         embedded_svc.addEventHandler("afterMaximize", function(data) {
-            var formAct = document.querySelector("div.dockableContainer.showDockableContainer");
-            formAct.style.right=chatSFposicion;
-            formAct.style.left = chatSFizq;
             console.log("Evento afterMaximize.");
             if (!show) {
                 show = true;
                 var li2 = document.createElement("div");
                 li2.style.color = "white";
-                li2.style.backgroundColor  = "#FF0003";
+                li2.style.backgroundColor  = "#ff0003";
                 li2.style.padding = "1px";
                 li2.style.fontSize = "13px";
                 li2.appendChild(document.createTextNode("Para atenderte mejor, por favor llena el siguiente formulario."));
@@ -145,51 +114,47 @@
                 li.appendChild(document.createElement("br"));
                 li.appendChild(document.createTextNode("Servicio al Cliente: Lun-Sab: 9am-6:00pm, Dom: 10am-5:00pm"));
                 li.appendChild(document.createElement("br"));
-				li.appendChild(document.createTextNode("Servicio Técnico: Lun-Vie: 8:15am-6:00pm, Sab: 8:15am a 1:00pm. "));
+				li.appendChild(document.createTextNode("Servicio Técnico: Lun-Vie: 8:15am-6:00pm, Sab: 8:15am-1:00pm. "));
                 var sidebar = document.querySelector("div.formContent.embeddedServiceSidebarForm");
                 sidebar.insertBefore(li2, sidebar.childNodes[0]);
                 console.log(sidebar.childNodes)
                 sidebar.insertBefore(li, sidebar.childNodes[4]);
             }
-            //Mostrar el boton ya modificado
-            var chat = document.querySelector("div.embeddedServiceHelpButton");
-            chat.style.display = "block";
-        });
-        embedded_svc.addEventHandler("afterMinimize", function(data) {
-            //Mostrar el boton ya modificado
-            var chat = document.querySelector("div.embeddedServiceHelpButton");
-            chat.style.display = "block";
-            console.log("Evento afterMinimize.");
-            var sidebar = document.querySelector("button.sidebarHeader.minimizedContainer.helpButton.embeddedServiceSidebarMinimizedDefaultUI");
-            sidebar.style.right = chatSFposicion;
-            sidebar.style.left = chatSFizq;
         });
         ///-------------------------------------------------------------------------------------------------------------------
-        embedded_svc.init(
-            'https://hiraokasf--uat.my.salesforce.com',
-            'https://uat-hiraoka.cs192.force.com/Chat',
-            gslbBaseURL,
-            '00D7d0000077jCR',
-            'HSC_Chat_Web',
-            {
-                baseLiveAgentContentURL: 'https://c.la3-c1cs-ia5.salesforceliveagent.com/content',
-                deploymentId: '5727d0000004CZp',
-                buttonId: '5737d0000004CsN',
-                baseLiveAgentURL: 'https://d.la3-c1cs-ia5.salesforceliveagent.com/chat',
-                eswLiveAgentDevName: 'EmbeddedServiceLiveAgent_Parent04I2g0000004CMbEAM_17b7eb6ed10',
-                isOfflineSupportEnabled: false
-            }
-        );
-    };
+        embedded_svc.settings.directToButtonRouting = function(prechatFormData) {
+            if (prechatFormData[3].value === 'Cómo comprar en la web' || prechatFormData[3].value === 'Consultas sobre pedidos' || prechatFormData[3].value === 'Otras consultas' || prechatFormData[3].value === 'Quejas y reclamos - pedidos'){
+                return "5734x000000DLN8";
+            }else{
+                return "5734x000000DLNI";
+            }   
+        }
+        
+		embedded_svc.init(
+			'https://hiraokasf.my.salesforce.com',
+			'https://hiraoka.secure.force.com/Chat',
+			gslbBaseURL,
+			'00D4x000006qb7C',
+			'HSC_Chat_Web',
+			{
+				baseLiveAgentContentURL: 'https://c.la3-c1-ia4.salesforceliveagent.com/content',
+				deploymentId: '5724x000000DL2f',
+				buttonId: '5734x000000DLND',
+				baseLiveAgentURL: 'https://d.la3-c1-ia4.salesforceliveagent.com/chat',
+				eswLiveAgentDevName: 'EmbeddedServiceLiveAgent_Parent04I4x0000004oOMEAY_17c7598103b',
+				isOfflineSupportEnabled: false
+			}
+		);
+	};
 
-    if (!window.embedded_svc) {
-        var s = document.createElement('script');
-        s.setAttribute('src', 'https://hiraokasf--uat.my.salesforce.com/embeddedservice/5.0/esw.min.js');
-        s.onload = function() {
-            initESW(null);
-        };
-        document.body.appendChild(s);
-    } else {
-        initESW('https://service.force.com');
-    }
+	if (!window.embedded_svc) {
+		var s = document.createElement('script');
+		s.setAttribute('src', 'https://hiraokasf.my.salesforce.com/embeddedservice/5.0/esw.min.js');
+		s.onload = function() {
+			initESW(null);
+		};
+		document.body.appendChild(s);
+	} else {
+		initESW('https://service.force.com');
+	}
 </script>
